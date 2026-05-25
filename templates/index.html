@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentiment & Emotion Analytics Dashboard | CodeAlpha Internship</title>
+  <meta name="description" content="An advanced NLP platform for data analytics, sentiment classification, emotion profiling, and actionable business insights.">
+  
+  <!-- Premium Fonts and Chart.js -->
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">SentimentIQ</div>
+        <div class="logo-sub">CodeAlpha Analytics</div>
+      </div>
+    </div>
+    
+    <ul class="nav-links">
+      <li>
+        <a class="nav-item active" id="nav-quick" onclick="switchPanel('quick')">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Quick Analyzer
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" id="nav-amazon" onclick="switchPanel('amazon')">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          Amazon Product Reviews
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" id="nav-social" onclick="switchPanel('social')">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+          </svg>
+          Social Media Tracker
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" id="nav-settings" onclick="switchPanel('settings')">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          Settings
+        </a>
+      </li>
+      <li>
+        <a class="nav-item" id="nav-bulk" onclick="switchPanel('bulk')">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          Bulk Analytics Upload
+        </a>
+      </li>
+    </ul>
+    
+    <div class="sidebar-footer">
+      CodeAlpha Intern Project<br>Data & Analytics Tasks
+    </div>
+  </aside>
+
+  <!-- Main View Frame -->
+  <main class="main-content">
+    
+    <!-- Top Information Banner -->
+    <header class="top-bar">
+      <div class="page-title">
+        <h1 id="main-panel-title">Sentiment & Emotion Intelligence</h1>
+        <p id="main-panel-desc">Real-time linguistic analytics engine mapping expressions to actionable insights.</p>
+      </div>
+      
+      <div class="user-badge">
+        <span class="pulse-dot"></span>
+        <span>Data Analytics Intern</span>
+      </div>
+    </header>
+
+    <!-- PANEL 1: QUICK ANALYZER -->
+    <section class="panel active" id="panel-quick">
+      <div class="grid-main-side">
+        <!-- Input & Highlighter -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Live Text Analyzer</h2>
+            <span class="card-subtitle" id="quick-word-count">Words: 0</span>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="quick-text-input">Type or paste feedback text below for real-time analysis:</label>
+            <div class="text-area-wrapper">
+              <textarea id="quick-text-input" placeholder="Example: The battery life of this watch is extremely good, but the syncing software has annoying glitches. I'm slightly disappointed yet trust the hardware quality..." oninput="onQuickTextInput()"></textarea>
+              <div class="char-counter" id="quick-char-counter">0 chars</div>
+            </div>
+          </div>
+          
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label">Semantic Highlights (hover for details):</label>
+            <div class="highlight-panel" id="quick-highlight-output">
+              <span class="highlight-placeholder">Analysis markup will render here as you type...</span>
+            </div>
+            <div class="hover-details-box" id="quick-hover-details"></div>
+          </div>
+        </div>
+        
+        <!-- Score Widgets -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          
+          <!-- Polarity Gauge & Sentiment Stats -->
+          <div class="card">
+            <h2 class="card-title">Sentiment Polarity Index</h2>
+            <div class="gauge-container" style="margin-top: 10px;">
+              <div class="gauge-canvas-wrapper">
+                <canvas id="quick-polarity-gauge"></canvas>
+                <div class="gauge-value" id="quick-polarity-value">0.00</div>
+                <div class="gauge-label" id="quick-polarity-label">Neutral</div>
+              </div>
+            </div>
+            
+            <div class="grid-3" style="margin-top: 40px;">
+              <div class="stat-box">
+                <div class="stat-label">Positive</div>
+                <div class="stat-value" id="quick-stat-pos" style="color: var(--color-pos);">0</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Neutral</div>
+                <div class="stat-value" id="quick-stat-neu" style="color: var(--color-neu);">0</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Negative</div>
+                <div class="stat-value" id="quick-stat-neg" style="color: var(--color-neg);">0</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Amazon URL Analyzer Card -->
+          <div class="card">
+            <h2>Amazon Product Sentiment Analyzer</h2>
+            <input type="text" id="amazon-url" placeholder="Paste Amazon product URL here" class="input-field" />
+            <button id="amazon-analyze-btn" class="btn">Analyze URL</button>
+            <div id="amazon-result" class="result-section"></div>
+          </div>
+          
+          <!-- Emotion Profiler -->
+          <div class="card">
+            <h2 class="card-title">Plutchik Emotion Profile</h2>
+            <div style="height: 240px; position: relative;">
+              <canvas id="quick-emotion-radar"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 2: AMAZON PRODUCTS SIMULATOR -->
+    <section class="panel" id="panel-amazon">
+      <div class="selector-row" id="amazon-selector-row">
+        <!-- Populated via Javascript -->
+      </div>
+      
+      <div class="grid-main-side">
+        <!-- Review Logger -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Customer Feedback Log</h2>
+            <span class="card-subtitle" id="amazon-reviews-count">0 reviews parsed</span>
+          </div>
+          <div class="list-container" id="amazon-reviews-list">
+            <!-- Populated via Javascript -->
+          </div>
+        </div>
+        
+        <!-- Metrics Panel -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Product Stats Summary -->
+          <div class="card">
+            <h2 class="card-title">Aggregate Analytics Dashboard</h2>
+            <div class="grid-2" style="margin-top: 10px; margin-bottom: 20px;">
+              <div class="stat-box">
+                <div class="stat-label">Avg rating</div>
+                <div class="stat-value" id="amazon-avg-rating">0.0</div>
+                <div class="rating-stars" id="amazon-rating-stars"></div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Net sentiment</div>
+                <div class="stat-value" id="amazon-avg-polarity">0.00</div>
+                <div class="stat-desc" id="amazon-sentiment-label">Neutral</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Product</div>
+                <div class="stat-value" id="amazon-product-name"></div>
+              </div>
+                <div class="stat-box">
+      <div class="stat-label">Sentiment Distribution</div>
+      <canvas id="amazon-sentiment-pie" width="150" height="150"></canvas>
+    </div>
+    </div>
+            
+            <h3 class="form-label" style="margin-bottom: 12px;">Feature Sentiment Mapping:</h3>
+            <div class="feature-list" id="amazon-feature-matrix">
+              <!-- Feature score bars populated via Javascript -->
+            </div>
+          </div>
+          
+          <!-- Product Emotions -->
+          <div class="card">
+            <h2 class="card-title">Customer Emotional Footprint</h2>
+            <div style="height: 220px; position: relative;">
+              <canvas id="amazon-emotion-radar"></canvas>
+            </div>
+          </div>
+          
+          <!-- Actionable Business Insights -->
+          <div class="card">
+            <h2 class="card-title">Product & Marketing Diagnostics</h2>
+            <div class="insights-container" id="amazon-insights-box">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 3: SOCIAL MEDIA MONITOR -->
+    <section class="panel" id="panel-social">
+      <div class="selector-row" id="social-selector-row">
+        <!-- Populated via Javascript -->
+      </div>
+
+      <!-- Search Input for Custom Topics -->
+      <div class="card" style="padding: 16px; margin-bottom: 8px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <label class="form-label" for="social-custom-query" style="font-weight: 600; font-size: 14px;">Track Custom Trending Topic / Hashtag:</label>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <input type="text" id="social-custom-query" placeholder="e.g. #ChatGPT, Climate Change, iPhone 17..." class="input-field" style="flex-grow: 1; margin: 0; padding: 10px 14px; background-color: rgba(5, 8, 15, 0.6); border: 1px solid var(--card-border); color: #fff; border-radius: 8px;" />
+            <button class="btn btn-primary" id="social-search-btn" onclick="trackCustomSocialTopic()" style="min-width: 150px; height: 38px; padding: 0 16px; border-radius: 8px;">Track Live Feed</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid-main-side">
+        <!-- Live Twitter Stream -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Interactive Hashtag Stream</h2>
+            <span class="badge badge-pos" id="social-volume-badge">Active</span>
+          </div>
+          <div class="list-container" id="social-posts-list">
+            <!-- Populated via Javascript -->
+          </div>
+        </div>
+        
+        <!-- Social Analytics -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Summary stats -->
+          <div class="card">
+            <h2 class="card-title">Trend Statistics</h2>
+            <div class="grid-2" style="margin-top: 10px;">
+              <div class="stat-box">
+                <div class="stat-label">Total Volume</div>
+                <div class="stat-value" id="social-post-count">0</div>
+                <div class="stat-desc">Indexed Posts</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Viral Index</div>
+                <div class="stat-value" id="social-total-interactions">0</div>
+                <div class="stat-desc">Likes + Retweets</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Sentiment & Emotion Visualizations -->
+          <div class="card">
+            <h2 class="card-title">Sentiment & Mood Profile</h2>
+            <div class="grid-2" style="margin-top: 15px;">
+              <!-- Sentiment Share -->
+              <div class="stat-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px;">
+                <div class="stat-label" style="margin-bottom: 12px; font-weight: 600;">Sentiment Share</div>
+                <div style="width: 100%; height: 180px; position: relative;">
+                  <canvas id="social-sentiment-pie"></canvas>
+                </div>
+              </div>
+              
+              <!-- Emotional Footprint -->
+              <div class="stat-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px;">
+                <div class="stat-label" style="margin-bottom: 12px; font-weight: 600;">Emotional Footprint</div>
+                <div style="width: 100%; height: 180px; position: relative;">
+                  <canvas id="social-emotion-radar"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Word Cloud -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Linguistic Density (Word Cloud)</h2>
+              <span class="card-subtitle">Frequent Keywords</span>
+            </div>
+            <div class="wordcloud-container" id="social-wordcloud">
+              <!-- Interactive words absolute positioned -->
+              <span class="highlight-placeholder">Generating cloud layout...</span>
+            </div>
+          </div>
+          
+          <!-- Recommendation Block -->
+          <div class="card">
+            <h2 class="card-title">Public Relations Strategy</h2>
+            <div class="insights-container" id="social-insights-box">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL: SETTINGS -->
+    <section class="panel" id="panel-settings">
+      <div class="grid-main-side">
+        <!-- Settings Form -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">System Configurations</h2>
+            <span class="card-subtitle">Adjust NLP algorithms &amp; UI defaults</span>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="setting-pos-threshold">Positive Sentiment Threshold (Polarity &gt;= X)</label>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <input type="range" id="setting-pos-threshold" min="0.01" max="0.5" step="0.01" value="0.05" oninput="updateSettingsValues()" style="flex-grow: 1; accent-color: var(--accent-primary);">
+              <span id="val-pos-threshold" style="font-family: var(--font-heading); font-weight: 600; min-width: 48px; text-align: right;">0.05</span>
+            </div>
+            <span class="stat-desc">Determines the minimum polarity score required to classify a statement as positive.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-neg-threshold">Negative Sentiment Threshold (Polarity &lt;= Y)</label>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <input type="range" id="setting-neg-threshold" min="-0.5" max="-0.01" step="0.01" value="-0.05" oninput="updateSettingsValues()" style="flex-grow: 1; accent-color: var(--color-neg);">
+              <span id="val-neg-threshold" style="font-family: var(--font-heading); font-weight: 600; min-width: 48px; text-align: right;">-0.05</span>
+            </div>
+            <span class="stat-desc">Determines the maximum polarity score allowed before classifying a statement as negative.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="setting-debounce-delay">Real-time Debounce Delay (ms)</label>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <input type="range" id="setting-debounce-delay" min="100" max="1000" step="50" value="300" oninput="updateSettingsValues()" style="flex-grow: 1; accent-color: var(--accent-secondary);">
+              <span id="val-debounce-delay" style="font-family: var(--font-heading); font-weight: 600; min-width: 48px; text-align: right;">300ms</span>
+            </div>
+            <span class="stat-desc">Controls typing debounce latency for the Quick Analyzer to prevent excessive API requests.</span>
+          </div>
+
+          <div class="form-group" style="margin-top: 24px;">
+            <button class="btn btn-primary" onclick="saveSettings()">Save &amp; Apply Settings</button>
+            <button class="btn btn-secondary" onclick="resetSettings()" style="margin-left: 12px;">Reset to Defaults</button>
+          </div>
+        </div>
+
+        <!-- Custom Vocabulary / Lexicon Card -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Custom Lexicon Vocabulary</h2>
+              <span class="card-subtitle">Override default sentiment valence scores</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label" for="custom-word-input">Word / Token</label>
+                <input type="text" id="custom-word-input" placeholder="e.g. sentimentiq" class="input-field" style="width: 100%;">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="custom-valence-input">Valence Score (-4.0 to +4.0)</label>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                  <input type="range" id="custom-valence-input" min="-4.0" max="4.0" step="0.5" value="1.0" oninput="updateCustomValenceLabel()" style="flex-grow: 1; accent-color: var(--accent-primary);">
+                  <span id="val-custom-valence" style="font-family: var(--font-heading); font-weight: 600; min-width: 48px; text-align: right;">+1.0</span>
+                </div>
+                <span class="stat-desc">Negative scores represent negative sentiment; positive scores represent positive sentiment.</span>
+              </div>
+
+              <button class="btn btn-primary" onclick="addCustomWord()">Add Custom Rule</button>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <h3 class="form-label" style="margin-bottom: 12px;">Active Overrides:</h3>
+              <div class="list-container" id="custom-lexicon-list" style="max-height: 200px; gap: 8px;">
+                <!-- Dynamically populated rules -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 5: BULK ANALYTICS UPLOADER -->
+    <section class="panel" id="panel-bulk">
+      <div class="card">
+        <h2 class="card-title">Data Ingestion Hub</h2>
+        <div class="uploader-box" id="uploader-box" onclick="triggerFileSelect()">
+          <svg class="uploader-icon" viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <polyline points="8 12 12 16 16 12"></polyline>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+          </svg>
+          <div style="font-family: var(--font-heading); font-size: 16px; font-weight: 600;">
+            Drag & Drop CSV / TXT feedback dataset here
+          </div>
+          <div class="stat-desc">
+            Or click to browse files. Supports column mapping for CSV datasets.
+          </div>
+          <input type="file" id="file-input" style="display: none;" accept=".csv,.txt" onchange="handleFileSelect(event)">
+        </div>
+      </div>
+      
+      <!-- Result view, hidden by default -->
+      <div class="grid-main-side" id="bulk-results-area" style="display: none;">
+        <!-- Left - Table breakdown -->
+        <div class="card" style="display: flex; flex-direction: column; gap: 16px;">
+          <div class="card-header">
+            <h2 class="card-title">Parsed Dataset Records</h2>
+            <span class="badge badge-pos" id="bulk-status-badge">Processed</span>
+          </div>
+          <div class="list-container" id="bulk-records-list" style="max-height: 480px;">
+            <!-- Render records -->
+          </div>
+        </div>
+        
+        <!-- Right - Metrics Summary -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Aggregate metrics -->
+          <div class="card">
+            <h2 class="card-title">Summary Statistics</h2>
+            <div class="grid-2" style="margin-top: 10px; margin-bottom: 20px;">
+              <div class="stat-box">
+                <div class="stat-label">Total Records</div>
+                <div class="stat-value" id="bulk-stat-total">0</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Average Polarity</div>
+                <div class="stat-value" id="bulk-stat-polarity">0.00</div>
+              </div>
+            </div>
+            
+            <h3 class="form-label" style="margin-bottom: 12px;">Sentiment Distribution:</h3>
+            <div class="feature-list">
+              <div class="feature-bar-row">
+                <div class="feature-info">
+                  <span class="feature-name">Positive Sentiment</span>
+                  <span class="feature-score" id="bulk-progress-pos-label">0%</span>
+                </div>
+                <div class="feature-bar-outer">
+                  <div class="feature-bar-inner" id="bulk-progress-pos" style="background-color: var(--color-pos)"></div>
+                </div>
+              </div>
+              <div class="feature-bar-row">
+                <div class="feature-info">
+                  <span class="feature-name">Neutral Sentiment</span>
+                  <span class="feature-score" id="bulk-progress-neu-label">0%</span>
+                </div>
+                <div class="feature-bar-outer">
+                  <div class="feature-bar-inner" id="bulk-progress-neu" style="background-color: var(--color-neu)"></div>
+                </div>
+              </div>
+              <div class="feature-bar-row">
+                <div class="feature-info">
+                  <span class="feature-name">Negative Sentiment</span>
+                  <span class="feature-score" id="bulk-progress-neg-label">0%</span>
+                </div>
+                <div class="feature-bar-outer">
+                  <div class="feature-bar-inner" id="bulk-progress-neg" style="background-color: var(--color-neg)"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Emotion radar -->
+          <div class="card">
+            <h2 class="card-title">Linguistic Emotion Spread</h2>
+            <div style="height: 220px; position: relative;">
+              <canvas id="bulk-emotion-radar"></canvas>
+            </div>
+          </div>
+          
+          <!-- Actions block -->
+          <div class="card">
+            <h2 class="card-title">Executive Reporting Suite</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+              <button class="btn btn-primary" id="btn-export-pdf" onclick="window.print()">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                  <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                  <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Print Executive PDF Report
+              </button>
+              <button class="btn btn-secondary" id="btn-export-json" onclick="downloadJSONReport()">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Raw JSON Analysis
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- AI Co-Pilot Floating Chatbot -->
+  <div class="chatbot-bubble" id="chat-bubble" onclick="toggleChatWindow()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </div>
+
+  <div class="chatbot-window" id="chat-window">
+    <div class="chatbot-header">
+      <div class="chatbot-info">
+        <div class="chatbot-status"></div>
+        <div>
+          <div class="chatbot-title">SentimentIQ Co-Pilot</div>
+          <div class="chatbot-subtitle">AI Assistant Online</div>
+        </div>
+      </div>
+      <button class="chatbot-close" onclick="toggleChatWindow()">×</button>
+    </div>
+    <div class="chatbot-body" id="chat-body">
+      <div class="chat-msg bot">
+        <p>Namaste! Main aapka AI Co-Pilot hoon. Main aapki product reviews aur Social Media Tracker reports ko samajhne me madad kar sakta hoon. Kuch bhi puchiye!</p>
+      </div>
+    </div>
+    <div class="chatbot-footer">
+      <div class="chatbot-input-wrapper">
+        <input type="text" id="chat-input" placeholder="Ask about Zenith, Velo Motors, sentiments..." class="chatbot-input" onkeypress="handleChatKeyPress(event)">
+        <button class="chatbot-send-btn" onclick="sendChatMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/main.js"></script>
+</body>
+</html>

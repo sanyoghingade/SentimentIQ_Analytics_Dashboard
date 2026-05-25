@@ -1,0 +1,7 @@
+review_id,product_id,review_text,rating,sentiment
+1,B001E4KFG0,"I love this watch! The battery lasts forever and the design is sleek.",5,positive
+2,B001E4KFG0,"Battery life is okay, but the syncing software is buggy.",3,neutral
+3,B001E4KFG0,"Terrible experience. The watch stopped working after a week.",1,negative
+4,B002QYW8LW,"Great value for money. Very comfortable to wear.",4,positive
+5,B002QYW8LW,"Average quality. Not bad but not great either.",3,neutral
+6,B002QYW8LW,"Very disappointed. The strap broke quickly.",1,negative
